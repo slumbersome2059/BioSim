@@ -1,7 +1,18 @@
-public abstract class Organism {
+import java.util.Random;
+
+public class Organism {
     private String symbol;
     private Point coords;
     private Game game;
+    private Random rand;
+    public Organism(Point p, Game game, String symbol){
+        this.setGame(game);
+        this.setSymbol(symbol);
+        this.setCoords(p);
+        rand = new Random();
+
+
+    }
 
     public String getSymbol() {
         return symbol;
@@ -19,7 +30,7 @@ public abstract class Organism {
         this.coords = coords;
     }
 
-    public abstract void update();
+    public void update(){};
 
     public Game getGame() {
         return game;
@@ -27,5 +38,13 @@ public abstract class Organism {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public Random getRand() {
+        return rand;
+    }
+
+    public void setRand(Random rand) {
+        this.rand = rand;
     }
 }

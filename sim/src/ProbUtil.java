@@ -7,27 +7,21 @@ public final class ProbUtil {
 
     public static boolean randomSuccess(double successChance){
         Random rand = new Random();
-        return 1 == rand.nextInt((int)(1/successChance));
+        return 0 == rand.nextInt((int)(1/successChance));
     }
-    public static Optional<Point> generateRandAdjSquare(Point p, HashMap<Point, Organism> occupied){
+    public static ArrayList<Point> generateAdjSquares(Point p){
         Random rand = new Random();
+        boolean check;
         ArrayList<Point> possSquares = new ArrayList<>();
-        int[] incs = new int[]{-1,0,1};
+        int[] incs = new int[]{-1,0,1};//the moves you can make in each direction
         for(int i: incs){
             for(int j: incs){
                 Point trialP = new Point(p.getX() + i, p.getY() + j);
-                if(!(i== 0 && j==0) && !(occupied.containsKey(trialP))){
+                if(!(i== 0 && j==0)){//checks if the new pos isn't the original one or one where somehting else is
                     possSquares.add(trialP);
                 }
             }
         }
-        int l = possSquares.toArray().length;
-        if(l== 0){
-            return Optional.empty();
-        }else{
-            return Optional.of(possSquares.get(rand.nextInt(0, l)));
-        }
-        //Deal with 0 and 0
-        //take in occupied points to generate unoccupied ones or not anything
+        return possSquares;
     }
 }
