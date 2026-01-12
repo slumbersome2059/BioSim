@@ -6,10 +6,10 @@ import java.util.Vector;
 public class Game {//contains state that all other classes of game needs
     private ArrayList<Organism> organisms;
     private HashMap<Point, Organism> occupied;
-    private Plant tp;
     public Game(){
         organisms = new ArrayList<>();
         occupied = new HashMap<>();
+        organisms.add(new Plant(new Point(12, 1), this));
     }
     public void createNewOrganism(Organism o){
         organisms.add(o);
@@ -25,7 +25,11 @@ public class Game {//contains state that all other classes of game needs
         return occupied;
     }
     public void play(){
-
+        while(true){
+            for(int i = 0; i < organisms.size();i++){
+                organisms.get(i).update();
+            }
+        }
 
     }
 }

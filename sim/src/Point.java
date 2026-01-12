@@ -25,4 +25,16 @@ public class Point {
     public static Point add(Point p1, Point p2){
         return new Point(p1.getX() + p2.getX(), p1.getY() + p2.getY());
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Point)) return false;
+        Point point = (Point) o;
+        return x == point.x && y == point.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(x, y);
+    }
 }

@@ -4,9 +4,8 @@ import java.util.Optional;
 import java.util.Random;
 
 public final class ProbUtil {
-
+    private static final Random rand = new Random();
     public static boolean randomSuccess(double successChance){
-        Random rand = new Random();
         return 0 == rand.nextInt((int)(1/successChance));
     }
     public static ArrayList<Point> generateAdjSquares(Point p){
