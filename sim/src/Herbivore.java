@@ -3,21 +3,31 @@ import java.util.Optional;
 
 public class Herbivore extends Organism{
     private int energy;
-    private static final int START_ENERGY = 10;
-    private static final int EAT_ENERGY = 1;
+    private static final int START_ENERGY = 100;
+    private static final int EAT_ENERGY = 10;
+    private static final int REPRODUCTION_THRESHOLD_ENERGY = 120;
+    private static final int LOSE_ENERGY_IN_REPRODUCTION = 10;
+    private static final int LOSE_ENERGY_IN_TURN = 1;
     public Herbivore(Point p, Game game){
         super(p, game, "H");
         energy = START_ENERGY;
     }
     @Override
     public void update() {
+        getGame().removeOrganismFromSquare(this);
         super.setCoords(generateRandAdjSquare());
+        getGame().addOrganismToSquare(this);
         if(energy <= 0){
-            // code for death
-            getGame().getOrganisms().remove(this);
-            // remove organism from occupied
+            getGame().killNewOrganism(this);//herbivore dies
         }else{
-
+            Plant plant = (Plant) (getGame().getOrganismsInSquare(getCoords(), "P").getFirst());//should only be one plant per square
+            getGame().killNewOrganism(plant);
+            energy += EAT_ENERGY;
+            if(energy > REPRODUCTION_THRESHOLD_ENERGY){
+                getGame().createNewOrganism(new Herbivore(generateRandAdjSquare(), getGame()));
+                energy -= LOSE_ENERGY_IN_REPRODUCTION;
+            }
+            energy -= LOSE_ENERGY_IN_TURN;
         }
 
     }

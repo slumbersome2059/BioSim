@@ -18,7 +18,8 @@ public class Plant extends Organism{
         ArrayList<Point> possSquares = ProbUtil.generateAdjSquares(super.getCoords());
         for(int i = 0; i< possSquares.size();i++){
             if((getGame().getOccupied().containsKey(possSquares.get(i)))){
-               if(getGame().getOccupied().get(possSquares.get(i)).getSymbol().equals("P")) {
+
+               if(!getGame().getOrganismsInSquare(possSquares.get(i), "P").isEmpty()) {
                    possSquares.remove(possSquares.get(i));//remove if plant going to plant square
                    i-= 1;
                }
