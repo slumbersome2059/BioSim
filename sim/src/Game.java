@@ -10,7 +10,12 @@ public class Game {//contains state that all other classes of game needs
     public Game(){
         organisms = new ArrayList<>();
         occupied = new HashMap<>();
-        organisms.add(new Plant(new Point(12, 1), this));
+        createNewOrganism(new Plant(new Point(12, 8), this));
+        createNewOrganism(new Plant(new Point(12, 9), this));
+        createNewOrganism(new Plant(new Point(12, 11), this));
+        createNewOrganism(new Plant(new Point(12, 10), this));
+        createNewOrganism(new Herbivore(new Point(13, 10), this));
+        createNewOrganism(new Herbivore(new Point(11, 9), this));
     }
     public void createNewOrganism(Organism o){
         organisms.add(o);
@@ -24,7 +29,7 @@ public class Game {//contains state that all other classes of game needs
 
     public ArrayList<Organism> getOrganismsInSquare(Point p, String symbol){
         //gives an array list of the organisms in the square with that symbol
-        return (ArrayList<Organism>) occupied.get(p).stream().filter(o -> o.getSymbol().equals(symbol)).toList();
+        return new ArrayList<>(occupied.get(p).stream().filter(o -> o.getSymbol().equals(symbol)).toList());
     }
     public void addOrganismToSquare(Organism o){//adds organism to occupied hashmap
         ArrayList<Organism> os;

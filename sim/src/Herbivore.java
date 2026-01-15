@@ -20,9 +20,11 @@ public class Herbivore extends Organism{
         if(energy <= 0){
             getGame().killNewOrganism(this);//herbivore dies
         }else{
-            Plant plant = (Plant) (getGame().getOrganismsInSquare(getCoords(), "P").getFirst());//should only be one plant per square
-            getGame().killNewOrganism(plant);
-            energy += EAT_ENERGY;
+            ArrayList<Organism> plantsInSquare = (getGame().getOrganismsInSquare(getCoords(), "P"));
+            if(!plantsInSquare.isEmpty()){
+                getGame().killNewOrganism(plantsInSquare.getFirst());//should only be one plant per square
+                energy += EAT_ENERGY;
+            }
             if(energy > REPRODUCTION_THRESHOLD_ENERGY){
                 getGame().createNewOrganism(new Herbivore(generateRandAdjSquare(), getGame()));
                 energy -= LOSE_ENERGY_IN_REPRODUCTION;
