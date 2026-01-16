@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -54,12 +57,26 @@ public class Game {//contains state that all other classes of game needs
     public HashMap<Point, ArrayList<Organism>> getOccupied() {
         return occupied;
     }
-    public void play(){
+    public void play() throws IOException {
+        InputTests.Spaces();
+        InputTests.ExtraFields();
+        InputTests.Norm();
+        InputTests.missingFields();
+
+        /*
         while(true){
             for(int i = 0; i < organisms.size();i++){
                 organisms.get(i).update();
             }
         }
+         */
 
     }
 }
+/*
+TODO:
+Create I/O classes
+Test Herbivore and Plant classes
+Create Carnivore class
+Write Unit tests for generateAdjSquares and other units not relying on too much randomness
+ */
