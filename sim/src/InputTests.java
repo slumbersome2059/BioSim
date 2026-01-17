@@ -4,10 +4,12 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 public abstract class  InputTests {
-    public static void Norm() throws IOException {
+    public static void Norm() throws IOException{
         //Normal case
+
         Input input = new Input();
         PrintWriter writer = new PrintWriter("sim/src/config", StandardCharsets.UTF_8);
+
         writer.println("""
                 START_ENERGY = 1
                 EAT_ENERGY = 100

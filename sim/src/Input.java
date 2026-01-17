@@ -8,11 +8,16 @@ public class Input {
     private InputStream input;
     private ArrayList<String> params;
     private HashMap<String, String> constants;
-    public final int START_ENERGY;
+    public final int START_ENERGY;//public is used here because these are final constants
     public final int EAT_ENERGY;
     public final int REPRODUCTION_THRESHOLD_ENERGY;
     public final int LOSE_ENERGY_IN_REPRODUCTION;
     public final int LOSE_ENERGY_IN_TURN;
+    public final int GRID_WIDTH;
+    public final int GRID_HEIGHT;
+    public final int NUM_CARNIVORES;
+    public final int NUM_HERBIVORES;
+    public final int NUM_PLANTS;
     public Input() throws IOException{
         constants = new HashMap<>();
         BufferedReader br = new BufferedReader(new FileReader("sim/src/config"));
@@ -36,6 +41,16 @@ public class Input {
             LOSE_ENERGY_IN_REPRODUCTION = Integer.parseInt(constants.get(msg));
             msg = "LOSE_ENERGY_IN_TURN";
             LOSE_ENERGY_IN_TURN = Integer.parseInt(constants.get(msg));
+            msg = "GRID_WIDTH";
+            GRID_WIDTH = Integer.parseInt(constants.get(msg));
+            msg = "GRID_HEIGHT";
+            GRID_HEIGHT = Integer.parseInt(constants.get(msg));
+            msg = "NUM_CARNIVORES";
+            NUM_CARNIVORES = Integer.parseInt(constants.get(msg));
+            msg = "NUM_HERBIVORES";
+            NUM_HERBIVORES = Integer.parseInt(constants.get(msg));
+            msg = "NUM_PLANTS";
+            NUM_PLANTS = Integer.parseInt(constants.get(msg));
         }catch (NumberFormatException e){
             throw new IOException("Problem with " + msg);
         }
