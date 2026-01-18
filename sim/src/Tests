@@ -1,0 +1,9 @@
+I did some tests by just running stuff instead of unit tests because
+of the random nature of some of the things I couldn't narrow it down with a specific case.
+Test 1:
+What happens to output when there are large numbers of Herbivores?
+- It looks distorted with columns not aligned
+- I have allowed it to go ont a different line with columns aligned now
+Does initial state load?
+- No, this is why there is no plant when many herbivores initialised
+- I added printOut before loop and plant now appears

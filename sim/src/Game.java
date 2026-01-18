@@ -77,6 +77,7 @@ public class Game {//contains state that all other classes of game needs
         String[][] sA = new String[5][2];
         Scanner s = new Scanner(System.in);
         System.out.println("Press space for next run\n");
+        Output.printOut(genOutputArr());
         while(true) {
             if(s.nextLine().contains(" ")){
                 for (int i = 0; i < organisms.size(); i++) {
@@ -128,4 +129,5 @@ Test Herbivore and Plant classes
 Create Carnivore class
 Deal with having to display more than padding length by creating new line(just calc how many new lines you need)
 Write Unit tests for generateAdjSquares and other units not relying on too much randomness
+Only displays the state after 1 update and never displays initial state
  */
