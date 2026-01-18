@@ -5,4 +5,5 @@ What happens to output when there are large numbers of Herbivores?
 - It looks distorted with columns not aligned
 - I have allowed it to go ont a different line with columns aligned now
 Does initial state load?
-- No,
+- No, this is why there is no plant when many herbivores initialised
+- I added printOut before loop and plant now appears

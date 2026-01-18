@@ -121,6 +121,9 @@ public class Game {//contains state that all other classes of game needs
         }
         return squares;
     }
+    public Input getInput(){
+        return input;
+    }
 }
 /*
 TODO:
@@ -130,4 +133,6 @@ Create Carnivore class
 Deal with having to display more than padding length by creating new line(just calc how many new lines you need)
 Write Unit tests for generateAdjSquares and other units not relying on too much randomness
 Only displays the state after 1 update and never displays initial state
+Deal with an update being skipped in update for loop
+Have move and kill as two separate methods making a output of array in between
  */

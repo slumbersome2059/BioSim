@@ -8,11 +8,16 @@ public class Input {
     private InputStream input;
     private ArrayList<String> params;
     private HashMap<String, String> constants;
-    public final int START_ENERGY;//public is used here because these are final constants
-    public final int EAT_ENERGY;
-    public final int REPRODUCTION_THRESHOLD_ENERGY;
-    public final int LOSE_ENERGY_IN_REPRODUCTION;
-    public final int LOSE_ENERGY_IN_TURN;
+    public final int CARNIVORE_START_ENERGY;//public is used here because these are final constants
+    public final int CARNIVORE_EAT_ENERGY;
+    public final int CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY;
+    public final int CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION;
+    public final int CARNIVORE_LOSE_ENERGY_IN_TURN;
+    public final int HERBIVORE_START_ENERGY;//public is used here because these are final constants
+    public final int HERBIVORE_EAT_ENERGY;
+    public final int HERBIVORE_REPRODUCTION_THRESHOLD_ENERGY;
+    public final int HERBIVORE_LOSE_ENERGY_IN_REPRODUCTION;
+    public final int HERBIVORE_LOSE_ENERGY_IN_TURN;
     public final int GRID_WIDTH;
     public final int GRID_HEIGHT;
     public final int NUM_CARNIVORES;
@@ -32,15 +37,24 @@ public class Input {
         }
         String msg = "START_ENERGY";
         try {
-            START_ENERGY = Integer.parseInt(constants.get(msg));
-            msg = "EAT_ENERGY";
-            EAT_ENERGY = Integer.parseInt(constants.get(msg));
-            msg = "REPRODUCTION_THRESHOLD_ENERGY";
-            REPRODUCTION_THRESHOLD_ENERGY = Integer.parseInt(constants.get(msg));
-            msg = "LOSE_ENERGY_IN_REPRODUCTION";
-            LOSE_ENERGY_IN_REPRODUCTION = Integer.parseInt(constants.get(msg));
-            msg = "LOSE_ENERGY_IN_TURN";
-            LOSE_ENERGY_IN_TURN = Integer.parseInt(constants.get(msg));
+            CARNIVORE_START_ENERGY = Integer.parseInt(constants.get(msg));
+            msg = "CARNIVORE_START_ENERGY";
+            CARNIVORE_EAT_ENERGY = Integer.parseInt(constants.get(msg));
+            msg = "CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY";
+            CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY = Integer.parseInt(constants.get(msg));
+            msg = "CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION";
+            CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION = Integer.parseInt(constants.get(msg));
+            msg = "CARNIVORE_LOSE_ENERGY_IN_TURN";
+            CARNIVORE_LOSE_ENERGY_IN_TURN = Integer.parseInt(constants.get(msg));
+            HERBIVORE_START_ENERGY = Integer.parseInt(constants.get(msg));
+            msg = "CARNIVORE_START_ENERGY";
+            HERBIVORE_EAT_ENERGY = Integer.parseInt(constants.get(msg));
+            msg = "CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY";
+            HERBIVORE_REPRODUCTION_THRESHOLD_ENERGY = Integer.parseInt(constants.get(msg));
+            msg = "CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION";
+            HERBIVORE_LOSE_ENERGY_IN_REPRODUCTION = Integer.parseInt(constants.get(msg));
+            msg = "CARNIVORE_LOSE_ENERGY_IN_TURN";
+            HERBIVORE_LOSE_ENERGY_IN_TURN = Integer.parseInt(constants.get(msg));
             msg = "GRID_WIDTH";
             GRID_WIDTH = Integer.parseInt(constants.get(msg));
             msg = "GRID_HEIGHT";
