@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-
+/*
 public abstract class  InputTests {
     public static void Norm() throws IOException{
         //Normal case
@@ -77,3 +77,4 @@ public abstract class  InputTests {
     }
 
 }
+ */

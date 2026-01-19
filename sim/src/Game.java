@@ -5,14 +5,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game {//contains state that all other classes of game needs
-    private ArrayList<Organism> organisms;
+    private PriorityQueue<Organism> organisms;
     private HashMap<Point, ArrayList<Organism>> occupied;
     private Input input;
     private Random rand;
     private ArrayList<int[]> unusedPlantSquares;
     public Game() throws IOException {
         input = new Input();
-        organisms = new ArrayList<>();
+        organisms = new PriorityQueue<Organism>((Organism o1, Organism o2) ->  o1.getSymbol().compareTo(o2.getSymbol()));
+        //ordered by carnivore, herbivore then plant
         occupied = new HashMap<>();
         unusedPlantSquares = genUnusedPlantSquares();
         rand = new Random();
@@ -66,7 +67,7 @@ public class Game {//contains state that all other classes of game needs
     }
 
 
-    public ArrayList<Organism> getOrganisms() {
+    public PriorityQueue<Organism> getOrganisms() {
         return organisms;
     }
 
@@ -74,19 +75,19 @@ public class Game {//contains state that all other classes of game needs
         return occupied;
     }
     public void play() throws IOException {
-        String[][] sA = new String[5][2];
         Scanner s = new Scanner(System.in);
         System.out.println("Press space for next run\n");
         Output.printOut(genOutputArr());
         while(true) {
             if(s.nextLine().contains(" ")){
                 for (int i = 0; i < organisms.size(); i++) {
-                    organisms.get(i).update();
+                    getOrgFromPriorityQueue(organisms, i).update();
                 }
                 Output.printOut(genOutputArr());
                 System.out.println("Press space for next run\n");
             }
         }
+
 
     }
     private String[][] genOutputArr(){
@@ -123,6 +124,9 @@ public class Game {//contains state that all other classes of game needs
     }
     public Input getInput(){
         return input;
+    }
+    public Organism getOrgFromPriorityQueue(PriorityQueue<Organism> q, int index){
+        return (Organism) q.toArray()[index];
     }
 }
 /*

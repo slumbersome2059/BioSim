@@ -35,10 +35,10 @@ public class Input {
             constants.put(splitLines[0], splitLines[1]);
             line = br.readLine();
         }
-        String msg = "START_ENERGY";
+        String msg = "CARNIVORE_START_ENERGY";
         try {
             CARNIVORE_START_ENERGY = Integer.parseInt(constants.get(msg));
-            msg = "CARNIVORE_START_ENERGY";
+            msg = "CARNIVORE_EAT_ENERGY";
             CARNIVORE_EAT_ENERGY = Integer.parseInt(constants.get(msg));
             msg = "CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY";
             CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY = Integer.parseInt(constants.get(msg));
