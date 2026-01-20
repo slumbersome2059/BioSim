@@ -11,17 +11,16 @@ public class Carnivore extends Organism{
     }
     @Override
     public void update() {
-        kill();
+        kill();//kill anything on current square
         //Main
         getGame().removeOrganismFromSquare(this);
         super.setCoords(generateNextSquare());
         getGame().addOrganismToSquare(this);
+        kill();
+        reproduce();
+        energy -= getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_TURN;
         if(energy <= 0){
-            getGame().killNewOrganism(this);//herbivore dies
-        }else{
-            kill();
-            reproduce();
-            energy -= getGame().getInput().HERBIVORE_LOSE_ENERGY_IN_TURN;
+            getGame().killNewOrganism(this);//carnivore dies
         }
     }
     private Point generateRandAdjSquare(){
@@ -31,7 +30,10 @@ public class Carnivore extends Organism{
     }
     private Point generateNextSquare(){
         ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords());
-        ArrayList<Organism> adjHerbivores = getGame().getOrganismsInSquare(getCoords(), "H");
+        ArrayList<Organism> adjHerbivores =new ArrayList<>();
+        for(Point p: possSquares){
+            adjHerbivores.addAll(getGame().getOrganismsInSquare(p, "H"));
+        }
         if(adjHerbivores.isEmpty()){
             return generateRandAdjSquare();
         }else{
@@ -48,7 +50,7 @@ public class Carnivore extends Organism{
     private void reproduce(){
         if(energy > getGame().getInput().CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY){
             getGame().createNewOrganism(new Carnivore(generateRandAdjSquare(), getGame()), true);
-            energy -= getGame().getInput().HERBIVORE_LOSE_ENERGY_IN_REPRODUCTION;
+            energy -= getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION;
         }
     }
 }

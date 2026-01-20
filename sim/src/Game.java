@@ -19,10 +19,11 @@ public class Game {//contains state that all other classes of game needs
         iteratorCount = 0;
         unusedPlantSquares = genUnusedPlantSquares();
         rand = new Random();
+        /*
         for(int i = 0; i < input.NUM_CARNIVORES;i++){
             int x = rand.nextInt(0, input.GRID_WIDTH);
             int y = rand.nextInt(0, input.GRID_HEIGHT);
-            createNewOrganism(new Herbivore(new Point(x, y), this), false);
+            createNewOrganism(new Carnivore(new Point(x, y), this), false);
         }
         for(int i = 0; i < input.NUM_HERBIVORES;i++){
             int x = rand.nextInt(0, input.GRID_WIDTH);
@@ -35,6 +36,12 @@ public class Game {//contains state that all other classes of game needs
             unusedPlantSquares.remove(ind);
         }
 
+         */
+        createNewOrganism(new Carnivore(new Point(4, 1), this), false);
+
+
+        createNewOrganism(new Herbivore(new Point(4, 1), this), false);
+        createNewOrganism(new Herbivore(new Point(3, 0), this), false);
         /*
         createNewOrganism(new Plant(new Point(12, 8), this));
         createNewOrganism(new Plant(new Point(12, 9), this));
@@ -61,12 +68,18 @@ public class Game {//contains state that all other classes of game needs
     public void killNewOrganism(Organism o){
         // code for death
         organisms.remove(o);//remove organism from organisms list
+        iteratorCount -= 1;
         removeOrganismFromSquare(o);
     }
 
     public ArrayList<Organism> getOrganismsInSquare(Point p, String symbol){
         //gives an array list of the organisms in the square with that symbol
-        return new ArrayList<>(occupied.get(p).stream().filter(o -> o.getSymbol().equals(symbol)).toList());
+        if(occupied.containsKey(p)){
+            return new ArrayList<>(occupied.get(p).stream().filter(o -> o.getSymbol().equals(symbol)).toList());
+        }else{
+            return new ArrayList<>();//no organisms in square because square unoccupied
+        }
+
     }
     public void addOrganismToSquare(Organism o){//adds organism to occupied hashmap
         ArrayList<Organism> os;

@@ -7,3 +7,49 @@ What happens to output when there are large numbers of Herbivores?
 Does initial state load?
 - No, this is why there is no plant when many herbivores initialised
 - I added printOut before loop and plant now appears
+Do carnivores that eat the herbivore die quicker then ones that don't?
+- Tested with CARNIVORE_LOSE_ENERGY_IN_TURN = 60, CARNIVORE_EAT_ENERGY = 30, CARNIVORE_START_ENERGY =  100
+- Not working -> need to decrement count to make sure to not forget to update an organism in the loop
+
+[]             []             []             []             []
+[H]            []             []             []             []
+[]             []             []             []             []
+[C H]          []             []             []             [C]
+[]             []             []             []             [C]
+
+[]             []             []             []             []
+[]             []             []             []             []
+[]             []             []             []             []
+[]             [C]            []             []             [C]
+[]             []             []             []             [C]
+
+HERBIVORE_START_ENERGY =  100
+HERBIVORE_EAT_ENERGY = 30
+CARNIVORE_START_ENERGY =  100
+CARNIVORE_EAT_ENERGY = 40
+HERBIVORE_REPRODUCTION_THRESHOLD_ENERGY= 120
+CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY= 120
+HERBIVORE_LOSE_ENERGY_IN_REPRODUCTION = 10
+HERBIVORE_LOSE_ENERGY_IN_TURN = 1
+CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION = 10
+CARNIVORE_LOSE_ENERGY_IN_TURN = 60
+GRID_WIDTH = 5
+GRID_HEIGHT = 5
+NUM_CARNIVORES = 3
+NUM_HERBIVORES = 2
+NUM_PLANTS = 0
+PLANT_REPRODUCTION_PROBABILITY = 0.1
+-----------------------------------------------
+[]             []             []             [H]            [H]
+[C]            []             []             []             []
+[]             []             []             []             [C]
+[]             []             []             []             []
+[]             []             []             []             [C]
+
+
+[]             []             []             [H]            []
+[]             []             []             []             [C H]
+[]             [C]            []             []             []
+[]             []             []             [C]            []
+[]             []             []             []             []
+IOB
