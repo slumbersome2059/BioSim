@@ -15,7 +15,7 @@ public class Herbivore extends Organism{
         //To kill any plants if it starts on a plant square
         kill();
         reproduce();
-        if(energy - getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_TURN <= 0){
+        if(energy - getGame().getInput().HERBIVORE_LOSE_ENERGY_IN_TURN <= 0){
             getGame().killNewOrganism(this);//herbivore dies
         }else{
             energy -= getGame().getInput().HERBIVORE_LOSE_ENERGY_IN_TURN;
