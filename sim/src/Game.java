@@ -5,28 +5,36 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game {//contains state that all other classes of game needs
-    private PriorityQueue<Organism> organisms;
+    private ArrayList<Organism> organisms;
     private HashMap<Point, ArrayList<Organism>> occupied;
     private Input input;
     private Random rand;
     private ArrayList<int[]> unusedPlantSquares;
+    private int iteratorCount;
     public Game() throws IOException {
         input = new Input();
-        organisms = new PriorityQueue<Organism>((Organism o1, Organism o2) ->  o1.getSymbol().compareTo(o2.getSymbol()));
+        organisms = new ArrayList<>();
         //ordered by carnivore, herbivore then plant
         occupied = new HashMap<>();
+        iteratorCount = 0;
         unusedPlantSquares = genUnusedPlantSquares();
         rand = new Random();
-        for(int i = 0; i < input.NUM_PLANTS;i++){
-            int ind = rand.nextInt(0, unusedPlantSquares.size());
-            createNewOrganism(new Plant(new Point(unusedPlantSquares.get(ind)[0], unusedPlantSquares.get(ind)[1]), this));
-            unusedPlantSquares.remove(ind);
+        for(int i = 0; i < input.NUM_CARNIVORES;i++){
+            int x = rand.nextInt(0, input.GRID_WIDTH);
+            int y = rand.nextInt(0, input.GRID_HEIGHT);
+            createNewOrganism(new Herbivore(new Point(x, y), this), false);
         }
         for(int i = 0; i < input.NUM_HERBIVORES;i++){
             int x = rand.nextInt(0, input.GRID_WIDTH);
             int y = rand.nextInt(0, input.GRID_HEIGHT);
-            createNewOrganism(new Herbivore(new Point(x, y), this));
+            createNewOrganism(new Herbivore(new Point(x, y), this), false);
         }
+        for(int i = 0; i < input.NUM_PLANTS;i++){
+            int ind = rand.nextInt(0, unusedPlantSquares.size());
+            createNewOrganism(new Plant(new Point(unusedPlantSquares.get(ind)[0], unusedPlantSquares.get(ind)[1]), this), false);
+            unusedPlantSquares.remove(ind);
+        }
+
         /*
         createNewOrganism(new Plant(new Point(12, 8), this));
         createNewOrganism(new Plant(new Point(12, 9), this));
@@ -37,9 +45,18 @@ public class Game {//contains state that all other classes of game needs
         */
     }
 
-    public void createNewOrganism(Organism o){
-        organisms.add(o);
+    public void createNewOrganism(Organism o, boolean duringUpdate){
+        int count = 0;
+        while(count < organisms.size() && o.getSymbol().compareTo(organisms.get(count).getSymbol()) > 0){//o.getSymbol() > orgs.get(out).getSymbol
+            count += 1;
+        }
+        organisms.add(count, o);
         addOrganismToSquare( o);
+        if(duringUpdate){//when you are reproducing from an organism you will add to front of array and you don't want to come back to that organism again so you add by 1
+            //you will also not update reproduced organism at the cycle it's reproduced on
+            //but when you are not iterating and adding stuff at the start you don't want the count to move
+            iteratorCount += 1;
+        }
     }
     public void killNewOrganism(Organism o){
         // code for death
@@ -67,7 +84,7 @@ public class Game {//contains state that all other classes of game needs
     }
 
 
-    public PriorityQueue<Organism> getOrganisms() {
+    public ArrayList<Organism> getOrganisms() {
         return organisms;
     }
 
@@ -80,11 +97,14 @@ public class Game {//contains state that all other classes of game needs
         Output.printOut(genOutputArr());
         while(true) {
             if(s.nextLine().contains(" ")){
-                for (int i = 0; i < organisms.size(); i++) {
-                    getOrgFromPriorityQueue(organisms, i).update();
+                while (iteratorCount < organisms.size()){
+                    organisms.get(iteratorCount).update();
+                    iteratorCount += 1;
                 }
+
                 Output.printOut(genOutputArr());
                 System.out.println("Press space for next run\n");
+                iteratorCount = 0;
             }
         }
 
@@ -124,9 +144,6 @@ public class Game {//contains state that all other classes of game needs
     }
     public Input getInput(){
         return input;
-    }
-    public Organism getOrgFromPriorityQueue(PriorityQueue<Organism> q, int index){
-        return (Organism) q.toArray()[index];
     }
 }
 /*

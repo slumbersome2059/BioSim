@@ -9,24 +9,25 @@ public class Herbivore extends Organism{
     }
     @Override
     public void update() {
+
         //To kill any plants if it starts on a plant square
         kill();
         //Main
         getGame().removeOrganismFromSquare(this);
         super.setCoords(generateRandAdjSquare());
         getGame().addOrganismToSquare(this);
-        if(energy <= 0){
+        kill();//kills plant on a square it's going to, herbivore rendered before plant
+        //if herbivore moves to a square and plant reproduces you will see both in top and then plant killed next cycle
+        reproduce();
+        energy -= getGame().getInput().HERBIVORE_LOSE_ENERGY_IN_TURN;
+        if(energy <= 0){//comes here because it displays on new position before dying
             getGame().killNewOrganism(this);//herbivore dies
-        }else{
-            kill();//kills anything on a square it's going to, herbivore rendered before plant
-            //if herbivore moves to a square and plant reproduces you will see both in top and then plant killed next cycle
-            reproduce();
-            energy -= getGame().getInput().HERBIVORE_LOSE_ENERGY_IN_TURN;
         }
+
 
     }
     private Point generateRandAdjSquare(){
-        ArrayList<Point> possSquares = ProbUtil.generateAdjSquares(super.getCoords());
+        ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords());
         int l = possSquares.toArray().length;
         return possSquares.get(super.getRand().nextInt(0, l));
     }
@@ -38,8 +39,8 @@ public class Herbivore extends Organism{
         }
     }
     private void reproduce(){
-        if(energy > getGame().getInput().HERBIVORE_REPRODUCTION_THRESHOLD_ENERGY){
-            getGame().createNewOrganism(new Herbivore(generateRandAdjSquare(), getGame()));
+        if(energy > getGame().getInput().HERBIVORE_REPRODUCTION_THRESHOLD_ENERGY){//the herbivore will only produce one child per update, if it still has energy it will reproduce next round
+            getGame().createNewOrganism(new Herbivore(generateRandAdjSquare(), getGame()), true);
             energy -= getGame().getInput().HERBIVORE_LOSE_ENERGY_IN_REPRODUCTION;
         }
     }

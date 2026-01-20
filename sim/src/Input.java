@@ -23,6 +23,7 @@ public class Input {
     public final int NUM_CARNIVORES;
     public final int NUM_HERBIVORES;
     public final int NUM_PLANTS;
+    public final float PLANT_REPRODUCTION_PROBABILITY;
     public Input() throws IOException{
         constants = new HashMap<>();
         BufferedReader br = new BufferedReader(new FileReader("sim/src/config"));
@@ -46,14 +47,15 @@ public class Input {
             CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION = Integer.parseInt(constants.get(msg));
             msg = "CARNIVORE_LOSE_ENERGY_IN_TURN";
             CARNIVORE_LOSE_ENERGY_IN_TURN = Integer.parseInt(constants.get(msg));
+            msg = "HERBIVORE_START_ENERGY";
             HERBIVORE_START_ENERGY = Integer.parseInt(constants.get(msg));
-            msg = "CARNIVORE_START_ENERGY";
+            msg = "HERBIVORE_EAT_ENERGY";
             HERBIVORE_EAT_ENERGY = Integer.parseInt(constants.get(msg));
-            msg = "CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY";
+            msg = "HERBIVORE_REPRODUCTION_THRESHOLD_ENERGY";
             HERBIVORE_REPRODUCTION_THRESHOLD_ENERGY = Integer.parseInt(constants.get(msg));
-            msg = "CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION";
+            msg = "HERBIVORE_LOSE_ENERGY_IN_REPRODUCTION";
             HERBIVORE_LOSE_ENERGY_IN_REPRODUCTION = Integer.parseInt(constants.get(msg));
-            msg = "CARNIVORE_LOSE_ENERGY_IN_TURN";
+            msg = "HERBIVORE_LOSE_ENERGY_IN_TURN";
             HERBIVORE_LOSE_ENERGY_IN_TURN = Integer.parseInt(constants.get(msg));
             msg = "GRID_WIDTH";
             GRID_WIDTH = Integer.parseInt(constants.get(msg));
@@ -65,6 +67,8 @@ public class Input {
             NUM_HERBIVORES = Integer.parseInt(constants.get(msg));
             msg = "NUM_PLANTS";
             NUM_PLANTS = Integer.parseInt(constants.get(msg));
+            msg = "PLANT_REPRODUCTION_PROBABILITY";
+            PLANT_REPRODUCTION_PROBABILITY = Float.parseFloat(constants.get(msg));
         }catch (NumberFormatException e){
             throw new IOException("Problem with " + msg);
         }

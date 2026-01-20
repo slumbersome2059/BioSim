@@ -25,12 +25,12 @@ public class Carnivore extends Organism{
         }
     }
     private Point generateRandAdjSquare(){
-        ArrayList<Point> possSquares = ProbUtil.generateAdjSquares(super.getCoords());
+        ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords());
         int l = possSquares.size();
         return possSquares.get(super.getRand().nextInt(0, l));
     }
     private Point generateNextSquare(){
-        ArrayList<Point> possSquares = ProbUtil.generateAdjSquares(super.getCoords());
+        ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords());
         ArrayList<Organism> adjHerbivores = getGame().getOrganismsInSquare(getCoords(), "H");
         if(adjHerbivores.isEmpty()){
             return generateRandAdjSquare();
@@ -47,7 +47,7 @@ public class Carnivore extends Organism{
     }
     private void reproduce(){
         if(energy > getGame().getInput().CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY){
-            getGame().createNewOrganism(new Carnivore(generateRandAdjSquare(), getGame()));
+            getGame().createNewOrganism(new Carnivore(generateRandAdjSquare(), getGame()), true);
             energy -= getGame().getInput().HERBIVORE_LOSE_ENERGY_IN_REPRODUCTION;
         }
     }
