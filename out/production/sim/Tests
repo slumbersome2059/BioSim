@@ -11,6 +11,8 @@ Do carnivores that eat the herbivore die quicker then ones that don't?
 - Tested with CARNIVORE_LOSE_ENERGY_IN_TURN = 60, CARNIVORE_EAT_ENERGY = 30, CARNIVORE_START_ENERGY =  100
 - Not working -> need to decrement count to make sure to not forget to update an organism in the loop
 
+Test: This case not working
+
 []             []             []             []             []
 [H]            []             []             []             []
 []             []             []             []             []
@@ -39,7 +41,9 @@ NUM_CARNIVORES = 3
 NUM_HERBIVORES = 2
 NUM_PLANTS = 0
 PLANT_REPRODUCTION_PROBABILITY = 0.1
+C seems to update twice because of not taking out only if before
 -----------------------------------------------
+Test: Getting index out of bounds for this
 []             []             []             [H]            [H]
 [C]            []             []             []             []
 []             []             []             []             [C]
@@ -52,4 +56,4 @@ PLANT_REPRODUCTION_PROBABILITY = 0.1
 []             [C]            []             []             []
 []             []             []             [C]            []
 []             []             []             []             []
-IOB
+Need to take out only if before

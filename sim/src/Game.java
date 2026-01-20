@@ -19,7 +19,7 @@ public class Game {//contains state that all other classes of game needs
         iteratorCount = 0;
         unusedPlantSquares = genUnusedPlantSquares();
         rand = new Random();
-        /*
+
         for(int i = 0; i < input.NUM_CARNIVORES;i++){
             int x = rand.nextInt(0, input.GRID_WIDTH);
             int y = rand.nextInt(0, input.GRID_HEIGHT);
@@ -36,12 +36,12 @@ public class Game {//contains state that all other classes of game needs
             unusedPlantSquares.remove(ind);
         }
 
-         */
-        createNewOrganism(new Carnivore(new Point(4, 1), this), false);
+
+        //createNewOrganism(new Carnivore(new Point(0, 3), this), false);
 
 
-        createNewOrganism(new Herbivore(new Point(4, 1), this), false);
-        createNewOrganism(new Herbivore(new Point(3, 0), this), false);
+        //createNewOrganism(new Herbivore(new Point(0, 1), this), false);
+        //createNewOrganism(new Herbivore(new Point(0, 3), this), false);
         /*
         createNewOrganism(new Plant(new Point(12, 8), this));
         createNewOrganism(new Plant(new Point(12, 9), this));
@@ -67,8 +67,12 @@ public class Game {//contains state that all other classes of game needs
     }
     public void killNewOrganism(Organism o){
         // code for death
+        if(organisms.indexOf(o) <= iteratorCount){
+            iteratorCount -= 1;//to make sure you don't skip the one you deleted
+        }
         organisms.remove(o);//remove organism from organisms list
-        iteratorCount -= 1;
+
+
         removeOrganismFromSquare(o);
     }
 

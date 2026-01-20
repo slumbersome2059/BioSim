@@ -2,26 +2,36 @@ import java.util.ArrayList;
 
 public class Carnivore extends Organism{
     private int energy;
+    private boolean successfulReproduction;
 
     public Carnivore(Point p, Game game) {
         super(p, game, "C");
         energy = getGame().getInput().CARNIVORE_START_ENERGY;
+        successfulReproduction = false;
 
 
     }
     @Override
     public void update() {
-        kill();//kill anything on current square
-        //Main
-        getGame().removeOrganismFromSquare(this);
-        super.setCoords(generateNextSquare());
-        getGame().addOrganismToSquare(this);
-        kill();
+        kill();//kill anything on current square, eating takes no energy so no check
         reproduce();
-        energy -= getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_TURN;
-        if(energy <= 0){
+        if(energy - getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_TURN <= 0){
             getGame().killNewOrganism(this);//carnivore dies
+        }else{
+            energy -= getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_TURN;
+
+            //Move
+            getGame().removeOrganismFromSquare(this);
+            super.setCoords(generateNextSquare());
+            getGame().addOrganismToSquare(this);
+            //Kill on move
+            kill();
+            if(!successfulReproduction) {// specification seems to imply only one reproduction per update
+                reproduce();
+            }
         }
+
+
     }
     private Point generateRandAdjSquare(){
         ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords());
@@ -51,6 +61,9 @@ public class Carnivore extends Organism{
         if(energy > getGame().getInput().CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY){
             getGame().createNewOrganism(new Carnivore(generateRandAdjSquare(), getGame()), true);
             energy -= getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION;
+            successfulReproduction = true;
+        }else{
+            successfulReproduction = false;
         }
     }
 }
