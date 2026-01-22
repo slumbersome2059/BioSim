@@ -7,19 +7,22 @@ import java.util.stream.Collectors;
 public class Game {//contains state that all other classes of game needs
     private ArrayList<Organism> organisms;
     private HashMap<Point, ArrayList<Organism>> occupied;
-    private Input input;
-    private Random rand;
+    private final Input input;
+    private final Random rand;
     private ArrayList<int[]> unusedPlantSquares;
-    private int iteratorCount;
+    private ArrayList<Organism> toAdd;
+    private ArrayList<Organism> toRemove;
+
     public Game() throws IOException {
+
         input = new Input();
         organisms = new ArrayList<>();
         //ordered by carnivore, herbivore then plant
         occupied = new HashMap<>();
-        iteratorCount = 0;
         unusedPlantSquares = genUnusedPlantSquares();
         rand = new Random();
-
+        toAdd = new ArrayList<>();
+        toRemove = new ArrayList<>();
         for(int i = 0; i < input.NUM_CARNIVORES;i++){
             int x = rand.nextInt(0, input.GRID_WIDTH);
             int y = rand.nextInt(0, input.GRID_HEIGHT);
@@ -51,29 +54,32 @@ public class Game {//contains state that all other classes of game needs
         createNewOrganism(new Herbivore(new Point(11, 9), this));
         */
     }
-
-    public void createNewOrganism(Organism o, boolean duringUpdate){
+    private void addInOrder(Organism o){
         int count = 0;
         while(count < organisms.size() && o.getSymbol().compareTo(organisms.get(count).getSymbol()) > 0){//o.getSymbol() > orgs.get(out).getSymbol
             count += 1;
         }
         organisms.add(count, o);
-        addOrganismToSquare( o);
+    }
+
+    public void createNewOrganism(Organism o, boolean duringUpdate){
+        addOrganismToSquare( o);//will ensure it looks like it's been added to the rest of the world
         if(duringUpdate){//when you are reproducing from an organism you will add to front of array and you don't want to come back to that organism again so you add by 1
             //you will also not update reproduced organism at the cycle it's reproduced on
             //but when you are not iterating and adding stuff at the start you don't want the count to move
-            iteratorCount += 1;
+            toAdd.add(o);
+        }else{
+            addInOrder(o);
         }
     }
-    public void killNewOrganism(Organism o){
+    public void killNewOrganism(Organism o, boolean duringUpdate){
         // code for death
-        if(organisms.indexOf(o) <= iteratorCount){
-            iteratorCount -= 1;//to make sure you don't skip the one you deleted
-        }
-        organisms.remove(o);//remove organism from organisms list
-
-
         removeOrganismFromSquare(o);
+        if(duringUpdate){
+            toRemove.add(o);
+        }else{
+            organisms.remove(o);//remove organism from organisms list
+        }
     }
 
     public ArrayList<Organism> getOrganismsInSquare(Point p, String symbol){
@@ -97,7 +103,6 @@ public class Game {//contains state that all other classes of game needs
     }
     public void removeOrganismFromSquare(Organism o){//removes organism from point it's on
         occupied.get(o.getCoords()).remove(o);// remove organism from occupied
-        //CHECK THAT CODE ABOVE REMOVES ELEMENT FROM ACTUAL ARRAYLIST
     }
 
 
@@ -112,12 +117,28 @@ public class Game {//contains state that all other classes of game needs
         Scanner s = new Scanner(System.in);
         System.out.println("Press space for next run\n");
         Output.printOut(genOutputArr());
+        int iteratorCount = 0;
         while(true) {
             if(s.nextLine().contains(" ")){
                 while (iteratorCount < organisms.size()){
-                    organisms.get(iteratorCount).update();
+                    //TURN ORDER -> Carnivore is updated first, then herbivore, then plant
+                    //Ensures that a plant does not get killed by a herbivore which itself is being eaten by a carnivore
+                    Organism o = organisms.get(iteratorCount);
+
+                    // BUG FIX: Only update if the organism hasn't been killed this turn
+                    if (!toRemove.contains(o)) {
+                        o.update();
+                    }
                     iteratorCount += 1;
                 }
+                for(Organism o:toRemove){
+                    organisms.remove(o);
+                }
+                for(Organism o:toAdd){
+                    addInOrder(o);
+                }
+                toRemove.clear();
+                toAdd.clear();
 
                 Output.printOut(genOutputArr());
                 System.out.println("Press space for next run\n");

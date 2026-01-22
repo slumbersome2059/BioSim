@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Organism {
-    private String symbol;
+public abstract class Organism {
+    private final String symbol;
     private Point coords;
-    private Game game;
-    private Random rand;
+    private final Game game;
+
     public Organism(Point p, Game game, String symbol){
-        this.setGame(game);
-        this.setSymbol(symbol);
+        this.game = game;
+        this.symbol = symbol;
         this.setCoords(p);
-        rand = new Random();
+
 
 
     }
@@ -19,9 +19,7 @@ public class Organism {
         return symbol;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
+
 
     public Point getCoords() {
         return coords;
@@ -31,23 +29,14 @@ public class Organism {
         this.coords = coords;
     }
 
-    public void update(){};
+    public abstract void update();
 
     public Game getGame() {
         return game;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
 
-    public Random getRand() {
-        return rand;
-    }
 
-    public void setRand(Random rand) {
-        this.rand = rand;
-    }
     public ArrayList<Point> generateAdjSquares(Point p){
         Random rand = new Random();
         boolean check;

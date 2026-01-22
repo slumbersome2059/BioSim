@@ -13,10 +13,10 @@ public class Carnivore extends Organism{
     }
     @Override
     public void update() {
-        kill();//kill anything on current square, eating takes no energy so no check
-        reproduce();
+        killIfPossible();//kill anything on current square, eating takes no energy so no check
+        reproduceIfPossible();
         if(energy - getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_TURN <= 0){
-            getGame().killNewOrganism(this);//carnivore dies
+            getGame().killNewOrganism(this, true);//carnivore dies
         }else{
             energy -= getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_TURN;
 
@@ -25,9 +25,9 @@ public class Carnivore extends Organism{
             super.setCoords(generateNextSquare());
             getGame().addOrganismToSquare(this);
             //Kill on move
-            kill();
+            killIfPossible();
             if(!successfulReproduction) {// specification seems to imply only one reproduction per update
-                reproduce();
+                reproduceIfPossible();
             }
         }
 
@@ -36,7 +36,7 @@ public class Carnivore extends Organism{
     private Point generateRandAdjSquare(){
         ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords());
         int l = possSquares.size();
-        return possSquares.get(super.getRand().nextInt(0, l));
+        return possSquares.get(ProbUtil.rand.nextInt(0, l));
     }
     private Point generateNextSquare(){
         ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords());
@@ -47,17 +47,17 @@ public class Carnivore extends Organism{
         if(adjHerbivores.isEmpty()){
             return generateRandAdjSquare();
         }else{
-            return adjHerbivores.get(super.getRand().nextInt(0, adjHerbivores.size())).getCoords();
+            return adjHerbivores.get(ProbUtil.rand.nextInt(0, adjHerbivores.size())).getCoords();
         }
     }
-    private void kill(){//kills any herbivores on the square it's on
+    private void killIfPossible(){//kills one herbivore on the square it's on
         ArrayList<Organism> herbivoresInSquare = (getGame().getOrganismsInSquare(getCoords(), "H"));
         if(!herbivoresInSquare.isEmpty()){
-            getGame().killNewOrganism(herbivoresInSquare.getFirst());//should only be one plant per square
+            getGame().killNewOrganism(herbivoresInSquare.getFirst(), true);//should only be one plant per square
             energy += getGame().getInput().CARNIVORE_EAT_ENERGY;
         }
     }
-    private void reproduce(){
+    private void reproduceIfPossible(){
         if(energy > getGame().getInput().CARNIVORE_REPRODUCTION_THRESHOLD_ENERGY){
             getGame().createNewOrganism(new Carnivore(generateRandAdjSquare(), getGame()), true);
             energy -= getGame().getInput().CARNIVORE_LOSE_ENERGY_IN_REPRODUCTION;

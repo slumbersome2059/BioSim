@@ -28,10 +28,10 @@ public class Plant extends Organism{
             return Optional.empty();//no possible squares to move to
         }else{
 
-            return Optional.of(possSquares.get(super.getRand().nextInt(0, possSquares.size())));
+            return Optional.of(possSquares.get(ProbUtil.rand.nextInt(0, possSquares.size())));
         }
     }
     private boolean randomSuccess(){
-        return 0 == super.getRand().nextInt((int)(1/ getGame().getInput().PLANT_REPRODUCTION_PROBABILITY));
+        return 0 == ProbUtil.rand.nextInt((int)(1/ getGame().getInput().PLANT_REPRODUCTION_PROBABILITY));
     }
 }
