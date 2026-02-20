@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Carnivore extends Organism{
+public class Carnivore extends Organism {
     private int energy;
     private boolean successfulReproduction;
 

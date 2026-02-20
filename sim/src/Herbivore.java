@@ -1,7 +1,6 @@
 import java.util.ArrayList;
-import java.util.Optional;
 
-public class Herbivore extends Organism{
+public class Herbivore extends Organism {
     private int energy;
     private boolean successfulReproduction;
     public Herbivore(Point p, Game game){

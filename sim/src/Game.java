@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Game {//contains state that all other classes of game needs
     private ArrayList<Organism> organisms;

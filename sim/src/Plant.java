@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class Plant extends Organism{
+public class Plant extends Organism {
     public Plant(Point p, Game game){
         super(p, game, "P");
     }
