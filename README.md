@@ -1,1 +1,2 @@
 # BioSim
+This is a biological simulation project that I did for my Object Oriented Programming course at University. Open this up in an IDE and go inside sim/src/main and run it. The simulation consists of plants, carnivores and herbivores. Plants can reproduce every turn, herbivores eat plants and move randomly and they die when they have no energy, carnivores eat herbivores and move to a herbivore if there is an adjacent one or just moves randomly. Both herbivores and carnivores can reproduce onto adjacent squares.
