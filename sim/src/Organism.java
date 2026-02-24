@@ -4,15 +4,12 @@ import java.util.Random;
 public abstract class Organism {
     private final String symbol;
     private Point coords;
-    private final Game game;
 
-    public Organism(Point p, Game game, String symbol){
-        this.game = game;
+
+    public Organism(Point p, String symbol){
+
         this.symbol = symbol;
         this.setCoords(p);
-
-
-
     }
 
     public String getSymbol() {
@@ -29,15 +26,13 @@ public abstract class Organism {
         this.coords = coords;
     }
 
-    public abstract void update();
-
-    public Game getGame() {
-        return game;
-    }
+    public abstract void update(SimulationContext simulationContext);
 
 
 
-    public ArrayList<Point> generateAdjSquares(Point p){
+
+
+    public ArrayList<Point> generateAdjSquares(Point p, SimulationContext simulationContext){
         Random rand = new Random();
         boolean check;
         ArrayList<Point> possSquares = new ArrayList<>();
@@ -45,7 +40,7 @@ public abstract class Organism {
         for(int i: incs){
             for(int j: incs){
                 Point trialP = new Point(p.getX() + i, p.getY() + j);
-                if(!(i== 0 && j==0) && (p.getX() + i < getGame().getInput().GRID_WIDTH) && (p.getY() + j < getGame().getInput().GRID_HEIGHT)
+                if(!(i== 0 && j==0) && (p.getX() + i < simulationContext.getInput().GRID_WIDTH) && (p.getY() + j < simulationContext.getInput().GRID_HEIGHT)
                         && (p.getX() + i >= 0) && (p.getY() + j >= 0)
                 ){//checks if the new pos isn't the original one or one outside grid
                     possSquares.add(trialP);

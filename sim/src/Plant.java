@@ -2,22 +2,22 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class Plant extends Organism {
-    public Plant(Point p, Game game){
-        super(p, game, "P");
+    public Plant(Point p){
+        super(p, "P");
     }
     @Override
-    public void update() {
-        if(randomSuccess()){//creates organism at random adjacent square and doesn't do anything if all squares occupied
-            Optional<Point> newP = generateRandAdjSquare();
-            newP.ifPresent(point -> super.getGame().createNewOrganism(new Plant(point, getGame()), false));
+    public void update(SimulationContext simulationContext) {
+        if(randomSuccess(simulationContext)){//creates organism at random adjacent square and doesn't do anything if all squares occupied
+            Optional<Point> newP = generateRandAdjSquare(simulationContext);
+            newP.ifPresent(point -> simulationContext.createNewOrganism(new Plant(point), false));
         }
     }
-    private Optional<Point> generateRandAdjSquare(){
-        ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords());
+    private Optional<Point> generateRandAdjSquare(SimulationContext simulationContext){
+        ArrayList<Point> possSquares = super.generateAdjSquares(super.getCoords(), simulationContext);
         for(int i = 0; i< possSquares.size();i++){
-            if((getGame().getOccupied().containsKey(possSquares.get(i)))){
+            if((simulationContext.getOccupied().containsKey(possSquares.get(i)))){
 
-               if(!getGame().getOrganismsInSquare(possSquares.get(i), "P").isEmpty()) {
+               if(simulationContext.getOrganismsInSquare(possSquares.get(i), "P").isEmpty()) {
                    possSquares.remove(possSquares.get(i));//remove if plant going to plant square
                    i-= 1;
                }
@@ -31,7 +31,7 @@ public class Plant extends Organism {
             return Optional.of(possSquares.get(ProbUtil.rand.nextInt(0, possSquares.size())));
         }
     }
-    private boolean randomSuccess(){
-        return 0 == ProbUtil.rand.nextInt((int)(1/ getGame().getInput().PLANT_REPRODUCTION_PROBABILITY));
+    private boolean randomSuccess(SimulationContext simulationContext){
+        return 0 == ProbUtil.rand.nextInt((int)(1/ simulationContext.getInput().PLANT_REPRODUCTION_PROBABILITY));
     }
 }

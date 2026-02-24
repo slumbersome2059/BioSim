@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.*;
 
-public class Game {//contains state that all other classes of game needs
+public class Game implements SimulationContext {//contains state that all other classes of game needs
     private ArrayList<Organism> organisms;
     private HashMap<Point, ArrayList<Organism>> occupied;
     private final Input input;
@@ -23,16 +23,16 @@ public class Game {//contains state that all other classes of game needs
         for(int i = 0; i < input.NUM_CARNIVORES;i++){
             int x = rand.nextInt(0, input.GRID_WIDTH);
             int y = rand.nextInt(0, input.GRID_HEIGHT);
-            createNewOrganism(new Carnivore(new Point(x, y), this), false);
+            createNewOrganism(new Carnivore(new Point(x, y), getInput().CARNIVORE_START_ENERGY), false);
         }
         for(int i = 0; i < input.NUM_HERBIVORES;i++){
             int x = rand.nextInt(0, input.GRID_WIDTH);
             int y = rand.nextInt(0, input.GRID_HEIGHT);
-            createNewOrganism(new Herbivore(new Point(x, y), this), false);
+            createNewOrganism(new Herbivore(new Point(x, y), getInput().HERBIVORE_START_ENERGY), false);
         }
         for(int i = 0; i < input.NUM_PLANTS;i++){
             int ind = rand.nextInt(0, unusedPlantSquares.size());
-            createNewOrganism(new Plant(new Point(unusedPlantSquares.get(ind)[0], unusedPlantSquares.get(ind)[1]), this), false);
+            createNewOrganism(new Plant(new Point(unusedPlantSquares.get(ind)[0], unusedPlantSquares.get(ind)[1])), false);
             unusedPlantSquares.remove(ind);
         }
 
@@ -102,11 +102,6 @@ public class Game {//contains state that all other classes of game needs
         occupied.get(o.getCoords()).remove(o);// remove organism from occupied
     }
 
-
-    public ArrayList<Organism> getOrganisms() {
-        return organisms;
-    }
-
     public HashMap<Point, ArrayList<Organism>> getOccupied() {
         return occupied;
     }
@@ -124,7 +119,7 @@ public class Game {//contains state that all other classes of game needs
 
                     // BUG FIX: Only update if the organism hasn't been killed this turn
                     if (!toRemove.contains(o)) {
-                        o.update();
+                        o.update(this);
                     }
                     iteratorCount += 1;
                 }
